@@ -32,7 +32,7 @@
                                 <div class="field">
                                     <div class="control has-icons-left">
                                         <span class="icon is-small is-left">
-                                            <i class="fa fa-lock"></i>
+                                            <i  class="fa fa-lock"></i>
                                         </span>
                                         <input class="input" type="password" placeholder="senha" />
                                     </div>
@@ -46,7 +46,8 @@
                                         </div>
                                     </div>
                                     <div class="control">
-                                        <button class="button is-primary">Entrar</button>
+                                        <button class="button is-primary">
+                                            <router-link :to="{ name : 'area' }">Entrar</router-link></button>
                                     </div>
                                 </div>
                             </div>
@@ -59,6 +60,5 @@
 </template>
 <script>
 export default {
-
 }
 </script>
