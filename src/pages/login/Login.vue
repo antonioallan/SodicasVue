@@ -40,13 +40,13 @@
                                 <div class="field is-grouped is-grouped-right">
                                     <div class="control">
                                         <div class="button is-link">
-                                            <router-link :to="{ name : 'home' }">
+                                            <router-link :to="{ name : 'sigup' }">
                                                 Cadastrar
                                             </router-link>
                                         </div>
                                     </div>
                                     <div class="control">
-                                        <button class="button is-primary">
+                                        <button @click="logando()" class="button is-primary">
                                             <router-link :to="{ name : 'area' }">Entrar</router-link></button>
                                     </div>
                                 </div>
@@ -59,6 +59,12 @@
     </div>
 </template>
 <script>
+import logar from '../../events/login/logar'
 export default {
+    methods : {
+        logando(){
+            logar.$emit('logado')
+        }
+    }
 }
 </script>

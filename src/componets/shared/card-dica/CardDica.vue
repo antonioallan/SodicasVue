@@ -17,7 +17,15 @@
                 <p class="columns">
                     {{ dica.conteudo }}
                 </p>
-                <rating :pontuacao='dica.pontuacao'/>
+                <nav class="level">
+                    <div class="level-left">
+                        <rating :pontuacao='dica.pontuacao'/>
+                    </div>
+                    <div class="level-right">
+                        <p>{{ dica.data }}</p>
+                    </div>
+                </nav>
+                <slot name="acao" class="columns"></slot>
             </div>
         </div>
     </div>

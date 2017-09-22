@@ -13,19 +13,28 @@
                             </h2>
                         </div>
                         <div class="column is-offset-1">
-                            <div class="field">
-                                <div class="control">
+                            <div class="field has-addons has-addons-right">
+                                <div class="control is-expanded">
                                     <input class="input" type="text" placeholder="Buscar uma dica">
                                 </div>
-                            </div>
-                            <div class="filed level-right">
                                 <div class="control">
-                                    <button class="button is-danger">
+                                    <button class="button is-info has-icon-left">
                                         <span class="icon">
-                                            <i class="fa fa-plus"></i>
+                                            <i class="fa fa-search"></i>
                                         </span>
-                                        <span> Adicionar Tags </span>
+                                        <span>Buscar</span>
                                     </button>
+                                </div>
+                            </div>
+                            <div class="filed is-grouped level-right tags">
+                                <div v-if="tags" class="control">
+                                    <span v-for="tag in tags" :key="tag.id" class="tag is-light">
+                                        {{ tag.nome }}
+                                        <button @click="removeTag(tag)" class="delete is-small"></button>
+                                    </span>
+                                </div>
+                                <div style="margin-left : 5px" class="control">
+                                    <dropdown label="Selecione tags" :opcoes="opcaoTags" :eh-ativo="false" @itemClicado="selecionarTag($event)" />
                                 </div>
                             </div>
                         </div>
@@ -43,11 +52,24 @@
 </template>
 <script>
 import CardDica from '../../componets/shared/card-dica/CardDica.vue'
+import Dropdown from '../../componets/shared/dropdown/Dropdown.vue'
 import Dica from '../../domain/dica/Dica'
 import Tag from '../../domain/tag/Tag'
 export default {
     components: {
-        'card-dica': CardDica
+        'card-dica': CardDica,
+        'dropdown': Dropdown
+    },
+    methods: {
+        selecionarTag($event) {
+            if (!this.tags.map(el => el.id).includes($event.id)) {
+                this.tags.push($event);
+            }
+        },
+        removeTag(tag){
+            let i = this.tags.indexOf(tag)
+            this.tags.splice(i,1)
+        }
     },
     data() {
         return {
@@ -68,6 +90,18 @@ export default {
                     new Tag(3, "TERRORISMOS")
                 ], 1)
 
+            ],
+            tags: [],
+            opcaoTags: [
+                new Tag(1, "Casa"),
+                new Tag(2, "Lar"),
+                new Tag(3, "Manutenção"),
+                new Tag(4, "Informatica"),
+                new Tag(5, "Windows"),
+                new Tag(7, "SO"),
+                new Tag(1, "ALQUAIDA"),
+                new Tag(2, "HAMAS"),
+                new Tag(3, "TERRORISMOS")
             ]
         }
     }

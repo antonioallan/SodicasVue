@@ -29,6 +29,14 @@ export default {
     props: {
         alterar: {
             type: Boolean
+        },
+        url : {
+            type : String
+        }
+    },
+    created(){
+        if(this.opcao){
+            selecionado = this.opcao
         }
     },
     data() {
@@ -47,6 +55,7 @@ export default {
     methods : {
         mudar(src){
             this.selecionado = src
+            this.$emit('novaImagem',src)
         }
     }
 }
