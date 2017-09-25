@@ -1,51 +1,55 @@
 <template>
     <div>
-        <section class="hero is-dark">
-            <div class="hero-body">
-                <div class="container">
-                    <div class="columns">
-                        <div class="colunm">
-                            <h1 class="title">
-                                Compartilhando Conhecimento
-                            </h1>
-                            <h2 class="subtitle">
-                                conquistando o mundo.
-                            </h2>
-                        </div>
-                        <div class="column is-offset-1">
-                            <div class="field has-addons has-addons-right">
-                                <div class="control is-expanded">
-                                    <input class="input" type="text" placeholder="Buscar uma dica">
-                                </div>
-                                <div class="control">
-                                    <button class="button is-info has-icon-left">
-                                        <span class="icon">
+        <div class="jumbotron jumbotron-fluid bg-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col mr-auto">
+                        <h3 class="display-5 text-white">
+                            Compartilhando Conhecimento
+                        </h3>
+                        <h3 class="h2 text-white">
+                            <small>conquistando o mundo.</small>
+                        </h3>
+                    </div>
+                    <div class="col ml-auto">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input class="form-control" type="text" placeholder="Buscar uma dica">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary">
                                             <i class="fa fa-search"></i>
-                                        </span>
-                                        <span>Buscar</span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="filed is-grouped level-right tags">
-                                <div v-if="tags" class="control">
-                                    <span v-for="tag in tags" :key="tag.id" class="tag is-light">
-                                        {{ tag.nome }}
-                                        <button @click="removeTag(tag)" class="delete is-small"></button>
+                                            Buscar
+                                        </button>
                                     </span>
                                 </div>
-                                <div style="margin-left : 5px" class="control">
-                                    <dropdown label="Selecione tags" :opcoes="opcaoTags" :eh-ativo="false" @itemClicado="selecionarTag($event)" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 5px">
+                            <div class="col mr-auto float-left">
+                                <div v-if="tags" class="control">
+                                    <span v-for="tag in tags" :key="tag.id" class="tag btn btn-light btn-sm">
+                                        {{ tag.nome }}
+                                        <button style="margin-top: -3px; margin-left: 3px" @click="removeTag(tag)" class="close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </span>
                                 </div>
+                            </div>
+                            <div class="col-auto ml-auto float-right">
+                                <dropdown label="Selecione tags" :opcoes="opcaoTags" :eh-ativo="false" @itemClicado="selecionarTag($event)" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
         <div class="container">
-            <router-link v-for="dica of dicas" :key="dica.id" :to="{ name: 'dica', params: { id : dica.id }}">
-                <card-dica :dica="dica" />
-            </router-link>
+            <div class="row">
+                <div v-for="dica of dicas" :key="dica.id" class="col-xl-6 col-lg-6 col-md-6 col-sm-12 card-div">
+                    <card-dica :dica="dica" />
+                </div>
+            </div>
         </div>
     </div>
     </div>
@@ -107,3 +111,8 @@ export default {
     }
 }
 </script>
+<style scopedSlots>
+    .tag{
+        margin: 5px;
+    }
+</style>

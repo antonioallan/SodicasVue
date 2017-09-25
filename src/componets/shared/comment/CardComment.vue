@@ -1,18 +1,14 @@
 <template>
-    <div class="box">
-        <article class="media">
-            <div class="media-content">
-                <div class="content">
-                    <p>
-                        <strong>{{ comment.autor }}</strong>
-                        <br/> {{ comment.conteudo }}
-                    </p>
-                </div>
+    <div class="card card-div">
+        <div class="card-body">
+            <div class="card-title">
+                <h5>{{ comment.autor }}</h5>
             </div>
-            <div class="media-right">
+            <p class="card-text">{{ comment.conteudo }}</p>
+            <div>
                 <small>{{ comment.data }}</small>
             </div>
-        </article>
+        </div>
     </div>
 </template>
 <script>
@@ -20,3 +16,8 @@ export default {
     props: ['comment']
 }
 </script>
+<style scopedSlots>
+.card-div{
+        margin-bottom: 15px;
+    }
+</style>

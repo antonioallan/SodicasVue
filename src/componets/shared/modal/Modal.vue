@@ -1,19 +1,22 @@
 <template>
-    <div class="modal" :class="{'is-active' : visible }">
-        <div class="modal-background"></div>
-        <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">
-                    <slot name="header"></slot>
-                </p>
-                <button class="delete" @click="hideModal()" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-                <slot name="body"></slot>
-            </section>
-            <footer class="modal-card-foot">
-                <slot name="footer"></slot>
-            </footer>
+    <div class="modal fade" :class="[{'show' : visible}, visible ? 'bloco-block' : 'bloco-none']">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p class="modal-title">
+                        <slot name="header"></slot>
+                    </p>
+                    <button @click="hideModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <slot name="body"></slot>
+                </div>
+                <div class="modal-footer">
+                    <slot name="footer"></slot>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -50,3 +53,12 @@ export default {
     }
 }
 </script>
+<style scopedSlots>
+    .bloco-block{
+        display: block;
+    }
+
+    .bloco-none{
+        display: none;
+    }
+</style>

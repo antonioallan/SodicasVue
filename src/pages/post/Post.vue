@@ -1,44 +1,40 @@
 <template>
     <div>
-        <section class="hero is-warning">
-            <div class="hero-body">
+        <div class="jumbotron jumbotron-fluid bg-warning">
                 <div class="container">
-                    <div class="columns">
-                        <div class="column is-10">
-                            <h1 class="title">{{ dica.titulo }}</h1>
-                            <h2 class="subtitle is-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 col-lg-9">
+                            <h1 class="display-5">{{ dica.titulo }}</h1>
+                            <h2 class="h5">
                                 by {{ dica.autor }}
+                                <small>{{ dica.data }}</small>
                             </h2>
-                            <h4 class="subtitle is-5">{{ dica.data }}</h4>
                             <div class="tags">
-                                <span v-for="tag in dica.tags" :key="tag.id" class="tag is-primary">{{ tag.nome }}</span>
+                                <span v-for="tag in dica.tags" :key="tag.id" class="tag btn btn-primary btn-sm">{{ tag.nome }}</span>
                             </div>
                         </div>
-                        <div class="column is-2">
-                            <div class="tags">
-                                <span class="tag is-large is-success">{{ dica.pontuacao }}</span>
+                        <div class="col-sm-12 col-md-6 col-lg-3">
+                            <div class="text-center">
+                                <span class="tag btn btn-success btn-lg">{{ dica.pontuacao }}</span>
                             </div>
                             <votar @votado="computandoVoto($event)" />
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+        </div>
         <div class="container">
-            <div class="tile is-parent">
-                <article class="tile is-child notification">
-                    <div class="content">
-                        <div class="content is-half-mobile">
-                            {{ dica.conteudo }}
-                        </div>
-                    </div>
-                </article>
+            <div class="row">
+                <div class="col-12">
+                    <p class="text-justify">
+                        {{ dica.conteudo }}
+                    </p>
+                </div>
             </div>
-            <div class="columns">
-                <div class="column">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <card-comment v-for="comment in cometarios" :key="comment.id" :comment="comment" />
                 </div>
-                <div class="column">
+                <div class="col-sm-12 col-md-6 col-lg-6">
                     <form-comment @salvar="addComentario($event)" />
                 </div>
             </div>
@@ -52,6 +48,7 @@ import Comentario from '../../domain/comentario/Comentario'
 import CardComment from '../../componets/shared/comment/CardComment.vue'
 import FormComment from '../../componets/shared/comment/FormComment.vue'
 import RatingVotar from '../../componets/shared/rating/RatingVotar.vue'
+import message from '../../events/message/message'
 export default {
     components: {
         'card-comment': CardComment,
@@ -66,7 +63,7 @@ export default {
                 new Tag(3, "Manutenção")
             ], 3.5),
             cometarios: [
-                new Comentario(1,'Joao Zinho','Esta post e muito bom mesmo valeu!!!','Esta post e muito bom mesmo valeu!!!'),
+                new Comentario(1,'Joao Zinho','Esta post e muito bom mesmo valeu!!!','15/08/2017'),
                 new Comentario(2,'Tomas Turbamdo','Prefiro nao comentar nada','15/08/2017'),
                 new Comentario(3,'Chico Rita','muito legal, bom mesmo','21/07/2017'),
                 new Comentario(4,'Ms Hater','Isso é uma bosta','07/07/2017')
@@ -81,9 +78,14 @@ export default {
             this.cometarios.unshift($event);
         },
         computandoVoto($event) {
-            alert("Obrigado por participar")
+            message.$emit('show',{ message : 'obrigado por participar', tipo : 'success' })
             this.dica.pontuacao = (this.dica.pontuacao + $event) / 2
         }
     }
 }
 </script>
+<style>
+    .tag{
+        margin: 5px;
+    }
+</style>

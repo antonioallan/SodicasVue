@@ -1,32 +1,37 @@
 <template>
-    <div class="card">
-        <div class="card-content">
-            <div class="columns">
-                <!-- Left side -->
-                <div class="column is-8">
-                    <p class="title is-3">{{ dica.titulo }}</p>
-                    <p class="subtitle is-5">
-                        {{ dica.autor }}
-                    </p>
+    <div class="card card-div">
+        <div class="card-body">
+                <div class="row">
+                <div class="col">
+                        <h3 class="h3">{{ dica.titulo }}</h3>
+                        <p class="display-5">
+                            {{ dica.autor }}
+                        </p>
+                    </div>
+                    <div class="col ml-auto">
+                        <span v-for="tag in dica.tags" :key="tag.id" class="tag btn btn-info btn-sm">{{ tag.nome }}</span>
+                    </div>
                 </div>
-                <div class="column tags">
-                    <span v-for="tag in dica.tags" :key="tag.id" class="tag is-primary">{{ tag.nome }}</span>
-                </div>
-            </div>
-            <div class="content">
-                <p class="columns">
+                <p class="card-text">
                     {{ dica.conteudo }}
                 </p>
-                <nav class="level">
-                    <div class="level-left">
+                <div class="row">
+                    <div class="col mr-auto">
                         <rating :pontuacao='dica.pontuacao'/>
                     </div>
-                    <div class="level-right">
-                        <p>{{ dica.data }}</p>
+                    <div class="col ml-auto">
+                        <p class="text-right">{{ dica.data }}</p>
                     </div>
-                </nav>
-                <slot name="acao" class="columns"></slot>
-            </div>
+                </div>
+                <div class="row">
+                    <div class="col mr-auto">
+                        <router-link :to="{ name: 'dica', params: { id : dica.id }}">Ver Mais</router-link>
+                    </div>
+                </div>
+                <div class="row">
+                    <slot name="acao" class="columns"></slot>
+                </div>
+                </div>
         </div>
     </div>
 </template>
@@ -44,3 +49,11 @@ export default {
 
 }
 </script>
+<style scopedSlots>
+    .tag{
+        margin: 5px;
+    }
+    .card-div{
+        margin-bottom: 15px;
+    }
+</style>

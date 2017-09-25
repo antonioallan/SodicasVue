@@ -1,5 +1,5 @@
 <template>
-    <span class="icon is-medium has-text-info" @click="marcar()">
+    <span class="icon text-primary star" @click="marcar()">
         <i class="fa" v-bind:class="[isMarcado ? 'fa-star' : 'fa-star-o', {'fa-3x' : grande , 'fa-2x' : medio, 'fa-lg' : pequeno }]"></i>
     </span>
 </template>
@@ -19,3 +19,8 @@ export default {
     }
 }
 </script>
+<style>
+.star{
+        margin: 8px;
+    }
+</style>

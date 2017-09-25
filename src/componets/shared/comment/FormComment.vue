@@ -1,26 +1,16 @@
 <template>
-    <div class="box">
-        <article class="media">
-            <div class="media-content">
-                <div class="field">
-                    <p class="control">
-                        <input v-model="comment.autor" class="input" type="text" placeholder="Seu Nome" />
-                    </p>
+    <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <input v-model="comment.autor" class="form-control" type="text" placeholder="Seu Nome" />
                 </div>
-                <div class="field">
-                    <p class="control">
-                        <textarea v-model="comment.conteudo" class="textarea" placeholder="Seu  comentário..."></textarea>
-                    </p>
+                <div class="form-group">
+                    <textarea v-model="comment.conteudo" class="form-control" placeholder="Seu  comentário..."></textarea>
                 </div>
-                <nav class="level">
-                    <div class="level-left">
-                        <div class="level-item">
-                            <button @click="comentar()" class="button is-info">Comentar</button>
-                        </div>
-                    </div>
-                </nav>
+                <div class="form-group">
+                    <button @click="comentar()" class="btn btn-info">Comentar</button>
+                </div>
             </div>
-        </article>
     </div>
 </template>
 <script>

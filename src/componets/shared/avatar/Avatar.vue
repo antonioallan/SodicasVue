@@ -1,7 +1,7 @@
 <template>
     <div class="content">
-        <figure class="image is-128x128">
-            <img :src="selecionado"/>
+        <figure class="rounded is-128x128">
+            <img :src="selecionado" class="img-thumbnail"/>
             <figcaption v-if="alterar">
                 <button v-modal:show="{modal : 'opcaoAvatar'}" class="button is-link">
                     Alterar

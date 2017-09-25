@@ -1,56 +1,51 @@
 <template>
-    <div>
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <div class="navbar-item">
-                    <router-link :to="{ name : 'home' }">
-                        <div class="title">
-                            <span class="icon has-text-primary">
-                                <i class="fa fa-hashtag"></i>
-                            </span>
-                            SóDicas
-                        </div>
-                    </router-link>
-                </div>
-            </div>
-            <div class="navbar-start" v-if="logado">
-                <router-link class="navbar-item" :to="{ name : 'area' }">
-                    <span class="icon">
-                        <i class="fa fa-book"></i>
-                    </span>
-                    Dicas
-                </router-link>
-                <router-link class="navbar-item" :to="{ name : 'perfil' }">
-                    <span class="icon">
-                        <i class="fa fa-user"></i>
-                    </span>
-                    Perfil
-                </router-link>
-            </div>
-            <div class="navbar-end">
-                <router-link v-if="!logado" class="navbar-item" :to="{ name : 'login' }">
-                    <span class="icon">
-                        <i class="fa fa-user"></i>
-                    </span>
-                    Login
-                </router-link>
-                <router-link v-if="logado" class="navbar-item" :to="{ name : 'acesso' }">
-                    <span class="icon">
-                        <i class="fa fa-user-secret"></i>
-                    </span>
-                    Conta de Acesso
-                </router-link>
-                <div @click="logout()">
-                <router-link  v-if="logado" class="navbar-item" :to="{ name : 'home' }">
-                    <span class="icon">
-                        <i class="fa fa-power-off"></i>
-                    </span>
-                    Sair
-                </router-link>
-                </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border border-top-0 border-left-0 border-right-0 border-secondary">
+            <router-link class="navbar-brand" :to="{ name : 'home' }">
+                <span class="icon has-text-primary">
+                    <i class="fa fa-hashtag"></i>
+                </span>
+                SóDicas
+                <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </router-link>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo">
+                <ul class="navbar-nav mr-auto" v-if="logado">
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name : 'area' }">
+                            <i class="fa fa-book"></i>
+                            Dicas
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{ name : 'perfil' }">
+                            <i class="fa fa-user"></i>
+                            Perfil
+                        </router-link>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <router-link v-if="!logado" class="nav-link" :to="{ name : 'login' }">
+                            <i class="fa fa-user"></i>
+                            Login
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link v-if="logado" class="nav-link" :to="{ name : 'acesso' }">
+                            <i class="fa fa-user-secret"></i>
+                            Conta de Acesso
+                        </router-link>
+                    </li>
+                    <li @click="logout()" class="nav-item">
+                        <router-link  v-if="logado" class="nav-link" :to="{ name : 'home' }">
+                            <i class="fa fa-power-off"></i>
+                            Sair
+                        </router-link>
+                    </li>
+                </ul>
             </div>
         </nav>
-    </div>
 </template>
 <script>
 import logar from '../../events/login/logar'

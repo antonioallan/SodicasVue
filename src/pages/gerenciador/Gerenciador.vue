@@ -1,99 +1,65 @@
 <template>
-    <div class="tile is-ancestor">
-        <div class="tile is-parent is-2">
-            <article class="tile is-child notification is-primary" style="height : 100%">
-                <div class="content">
-                    <div class="columns is-gap is-multiline">
-                        <div class="column is-12">
-                            <avatar :url="autor.avatar" :alterar="false" />
-                        </div>
-                        <div class="column is-12 has-text-centered">
-                            <h3 class="title is-3">{{ autor.nome }}</h3>
-                            <p class="subtitle is-5">@{{ autor.nickname }}</p>
-                        </div>
-                        <div class="column is-10 is-offset-2 has-text-centered">
-                            <rating :pontuacao='autor.pontuacao' />
-                        </div>
-                        <div class="column is-12 has-text-centered">
-                            {{ autor.sobre }}
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 bg-success">
+            <div class="card text-center card-avatar">
+                <div class="card-body">
+                    <img :src="autor.avatar" width="128" height="128"/>
+                    <h3 class="h3">{{ autor.nome }}</h3>
+                    <p class="h5">@{{ autor.nickname }}</p>
+                    <div class="row justify-content-md-center">
+                        <rating :pontuacao='autor.pontuacao' />
+                    </div>
+                    <div class="card-text">
+                        {{ autor.sobre }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <div class="card card-div">
+                        <header class="card-header">
+                                Criar Dicas
+                        </header>
+                        <div class="card-body">
+                                <div class="form-group">
+                                    <label class="control-label">Titulo</label>
+                                    <input v-model="dica.titulo" class="form-control" type="text" placeholder="Informe o titulo pra sua dica">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Conteúdo</label>
+                                    <textarea v-model="dica.conteudo" class="form-control" placeholder="Informe sua dica"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                        Tags
+                                        <button title="Nova Tag" v-modal:show="{modal : 'madalTag'}" class="btn btn-sm">
+                                            <i class="fa fa-plus"></i>
+                                    </button>
+                                </label>
+                                <select class="form-control" v-model="dica.tags" multiple size="5">
+                                    <option v-for="tag in tags" :key="tag.id" :value="tag">{{ tag.nome }}</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button @click="addDica()" class="btn btn-primary">Salvar</button>
+                                <button @click="limparForm()" class="btn btn-link">Cancelar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </article>
-        </div>
-        <div class="tile is-vertical">
-            <div class="tile">
-                <div class="tile is-parent">
-                    <article class="tile is-child">
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    Criar Dicas
-                                </p>
-                            </header>
-                            <div class="card-content">
-                                <div class="content">
-                                    <div class="field">
-                                        <label class="label">Titulo</label>
-                                        <div class="control">
-                                            <input v-model="dica.titulo" class="input" type="text" placeholder="Informe o titulo pra sua dica">
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Conteúdo</label>
-                                        <div class="control">
-                                            <textarea v-model="dica.conteudo" class="textarea" placeholder="Informe sua dica"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">
-                                            Tags
-                                            <button title="Nova Tag" v-modal:show="{modal : 'madalTag'}" class="button is-small">
-                                                <span class="icon is-small">
-                                                    <i class="fa fa-plus"></i>
-                                                </span>
-                                            </button>
-                                        </label>
-                                        <div class="control">
-                                            <div class="select is-multiple">
-                                                <select v-model="dica.tags" multiple size="5">
-                                                    <option v-for="tag in tags" :key="tag.id" :value="tag">{{ tag.nome }}</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="field is-grouped">
-                                        <div class="control">
-                                            <button @click="addDica()" class="button is-primary">Salvar</button>
-                                        </div>
-                                        <div class="control">
-                                            <button @click="limparForm()" class="button is-link">Cancelar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="tile is-parent is-vertical">
-                    <article v-for="dica of dicas" :key="dica.id" class="tile is-child">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    <article v-for="dica of dicas" :key="dica.id" class="card-div">
                         <div class="content">
                             <card-dica :dica="dica">
                                 <div slot="acao">
-                                    <nav class="level is-mobile">
-                                        <div class="level-left">
-                                            <button @click="seleciona(dica)" title="alterar" class="level-item button is-small">
-                                                <span class="icon is-small">
-                                                    <i class="fa fa-pencil"></i>
-                                                </span>
-                                            </button>
-                                            <button v-modal:show="{modal : 'conformacao'}" @click="seleciona(dica)" title="Remover" class="level-item button is-small is-danger">
-                                                <span class="icon is-small">
-                                                    <i class="fa fa-trash"></i>
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </nav>
+                                    <button @click="seleciona(dica)" title="alterar" class="btn btn-sm">
+                                        <i class="fa fa-pencil"></i>
+                                    </button>
+                                    <button v-modal:show="{modal : 'conformacao'}" @click="seleciona(dica)" title="Remover" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
                                 </div>
                             </card-dica>
                         </div>
@@ -104,39 +70,27 @@
         <modal name="madalTag">
             <p slot="header"> Cadastrar Tag</p>
             <div slot="body">
-                <div class="field">
-                    <div class="field">
-                        <label class="label">Nome</label>
-                        <div class="control">
-                            <input v-model="tag.nome" class="input" type="text" placeholder="Informe o nome da tag">
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label class="control-label">Nome</label>
+                    <input v-model="tag.nome" class="form-control" type="text" placeholder="Informe o nome da tag"/>
                 </div>
             </div>
             <div slot="footer">
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button @click="addTag()" class="button is-primary">Salvar</button>
-                    </div>
-                    <div class="control">
-                        <button v-modal:hide="{modal : 'madalTag'}" class="button is-danger">Cancelar</button>
-                    </div>
+                <div class="form-group">
+                    <button @click="addTag()" class="btn btn-primary">Salvar</button>
+                    <button v-modal:hide="{modal : 'madalTag'}" class="btn btn-danger">Cancelar</button>
                 </div>
             </div>
         </modal>
         <modal name="conformacao">
-            <p slot="header">Conformação</p>
+            <p slot="header">Confirmação</p>
             <div slot="body">
                 <p>Este procedimento removerá esta dica de nossa base de dados, deseja realizar esta operação?</p>
             </div>
             <div slot="footer">
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button v-modal:hide="{modal : 'conformacao'}" @click="remove()" class="button is-info">OK</button>
-                    </div>
-                    <div class="control">
-                        <button v-modal:hide="{modal : 'conformacao'}" class="button is-danger">Cancelar</button>
-                    </div>
+                <div class="form-group">
+                    <button v-modal:hide="{modal : 'conformacao'}" @click="remove()" class="btn btn-info">OK</button>
+                    <button v-modal:hide="{modal : 'conformacao'}" class="btn btn-danger">Cancelar</button>
                 </div>
             </div>
         </modal>
@@ -228,3 +182,12 @@ export default {
     }
 }
 </script>
+<style scopedSlots>
+    .card-avatar{
+        margin: 20px;
+    }
+    .card-div{
+        margin-top: 20px;
+    }
+</style>
+

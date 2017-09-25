@@ -1,11 +1,11 @@
 <template>
-    <div class="columns">
+    <div class="row">
         <star :pequeno="true" @clickStar="mudarVoto($event)"/>
         <star :pequeno="true" @clickStar="mudarVoto($event)"/>
         <star :pequeno="true" @clickStar="mudarVoto($event)"/>
         <star :pequeno="true" @clickStar="mudarVoto($event)"/>
         <star :pequeno="true" @clickStar="mudarVoto($event)"/>
-        <button @click="votar($event)" class="button is-dark is-small">Votar</button>
+        <button @click="votar($event)" class="btn btn-dark btn-sm">Votar</button>
     </div>
 </template>
 <script>
@@ -29,3 +29,4 @@ export default {
     }
 }
 </script>
+
