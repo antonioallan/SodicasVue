@@ -1,19 +1,7 @@
 <template>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 bg-success">
-            <div class="card text-center card-avatar">
-                <div class="card-body">
-                    <img :src="autor.avatar" width="128" height="128"/>
-                    <h3 class="h3">{{ autor.nome }}</h3>
-                    <p class="h5">@{{ autor.nickname }}</p>
-                    <div class="row justify-content-md-center">
-                        <rating :pontuacao='autor.pontuacao' />
-                    </div>
-                    <div class="card-text">
-                        {{ autor.sobre }}
-                    </div>
-                </div>
-            </div>
+            <card-user />
         </div>
         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
             <div class="row">
@@ -97,18 +85,16 @@
     </div>
 </template>
 <script>
-import Avatar from '../../componets/shared/avatar/Avatar.vue'
+import CardUser from '../../componets/shared/card-user/CardUser.vue'
 import CardDica from '../../componets/shared/card-dica/CardDica.vue'
-import Rating from '../../componets/shared/rating/Rating.vue'
 import Modal from '../../componets/shared/modal/Modal.vue'
 import Dica from '../../domain/dica/Dica'
 import Tag from '../../domain/tag/Tag'
 import Autor from '../../domain/autor/Autor'
 export default {
     components: {
-        'avatar': Avatar,
+        'card-user': CardUser,
         'card-dica': CardDica,
-        'rating': Rating,
         'modal': Modal
     },
     methods: {

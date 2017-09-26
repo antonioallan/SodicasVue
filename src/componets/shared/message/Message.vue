@@ -15,15 +15,20 @@ export default {
     mounted(){
         message.$on('hide',() => this.visible = false);
         message.$on('show',(msg) => {
-            console.log(msg)
-            this.visible = true
-            this.msg = msg.message
-            this.classeCss = 'alert-'.concat(msg.tipo)
+            this.show(msg)
         });
     },
     methods :{
         close(){
             this.visible = false 
+        },
+        show(msg){
+            this.visible = true
+            this.msg = msg.message
+            this.classeCss = 'alert-'.concat(msg.tipo)
+            setTimeout(()=> {
+                this.visible = false
+            }, 4000);
         }
     },
     data(){
@@ -40,8 +45,9 @@ export default {
     .message{
         position: absolute;
         top: 0;
-        left: 40%;
+        right: 0;
         z-index : 99999999;
-        width: auto;
+        margin: 15px;
+        opacity: 0.9;
     }
 </style>

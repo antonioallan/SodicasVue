@@ -13,33 +13,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-4 mx-auto">
-                    
+                    <form-sigup/>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import FormSigup from '../../componets/sigup/FormSigup.vue'
 export default {
-    data() {
-        return {
-            usuario: {
-                username: '',
-                senha: ''
-            },
-            valido: true,
-            confsenha: ''
-        }
-    },
-    methods: {
-        checarSenha() {
-            this.valido = (this.usuario.senha == this.confsenha)
-        }
+    components : {
+        'form-sigup' : FormSigup
     }
 }
 </script>
-<style scopedSlots>
-    .card-div{
-        margin: 15px;
-    }
-</style>
