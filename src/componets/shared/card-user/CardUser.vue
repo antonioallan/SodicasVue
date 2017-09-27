@@ -30,7 +30,7 @@ export default {
 
 <style scopedSlots>
 .card-avatar {
-    margin: 20px;
+    margin: 1vw;
 }
 
 .card-div {

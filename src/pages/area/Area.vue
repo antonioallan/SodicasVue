@@ -3,7 +3,7 @@
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 bg-success">
             <card-user />
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="card card-div">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <article v-for="dica of dicas" :key="dica.id" class="card-div">
+                    <div v-for="dica of dicas" :key="dica.id" class="card-div">
                         <div class="content">
                             <card-dica :dica="dica">
                                 <div slot="acao">
@@ -51,7 +51,7 @@
                                 </div>
                             </card-dica>
                         </div>
-                    </article>
+                    </div>
                 </div>
             </div>
         </div>
@@ -169,9 +169,6 @@ export default {
 }
 </script>
 <style scopedSlots>
-    .card-avatar{
-        margin: 20px;
-    }
     .card-div{
         margin-top: 20px;
     }

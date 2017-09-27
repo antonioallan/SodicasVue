@@ -54,6 +54,6 @@ export default {
         margin: 5px;
     }
     .card-div{
-        margin-bottom: 15px;
+        padding-bottom: 15px;
     }
 </style>
