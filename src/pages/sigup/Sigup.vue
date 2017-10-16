@@ -12,7 +12,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-4 mx-auto">
+                <div class="col-5 mx-auto">
                     <form-sigup/>
                 </div>
             </div>

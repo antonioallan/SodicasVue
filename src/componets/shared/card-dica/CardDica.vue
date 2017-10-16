@@ -5,7 +5,7 @@
                 <div class="col">
                         <h3 class="h3">{{ dica.titulo }}</h3>
                         <p class="display-5">
-                            {{ dica.autor }}
+                            {{ dica.autor.nickname }}
                         </p>
                     </div>
                     <div class="col ml-auto">
@@ -13,14 +13,14 @@
                     </div>
                 </div>
                 <p class="card-text">
-                    {{ dica.conteudo }}
+                    {{ resumo }}
                 </p>
                 <div class="row">
                     <div class="col mr-auto">
                         <rating :pontuacao='dica.pontuacao'/>
                     </div>
                     <div class="col ml-auto">
-                        <p class="text-right">{{ dica.data }}</p>
+                        <p class="text-right">{{ dataformatada }}</p>
                     </div>
                 </div>
                 <div class="row">
@@ -45,6 +45,14 @@ export default {
     },
     components :{
         'rating' : Rating
+    },
+    computed: {
+        dataformatada(){
+            return new Date(this.dica.data).toLocaleDateString();
+        },
+        resumo(){
+            return this.dica.conteudo.substring(0,120).concat("...");
+        }
     }
 
 }

@@ -1,4 +1,5 @@
 <template>
+<div class="container-fluid">
         <nav class="navbar navbar-expand-lg navbar-light bg-light border border-top-0 border-left-0 border-right-0 border-secondary row">
             <div class="container">
                 <router-link class="navbar-brand" :to="{ name : 'home' }">
@@ -6,16 +7,18 @@
                         <i class="fa fa-hashtag"></i>
                     </span>
                     SóDicas
-                    <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                 </router-link>
-                <div class="collapse navbar-collapse" id="navbarTogglerDemo">
+                <button class="navbar-toggler" @click="toggle()" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" :class="{'show' : isShow}" id="navbarTogglerDemo">
                     <ul class="navbar-nav mr-auto" v-if="logado">
                         <li class="nav-item">
                             <router-link class="nav-link" :to="{ name : 'area' }">
                                 <i class="fa fa-book"></i>
-                                Dicas
+                                Dicas<button class="navbar-toggler" @click="toggle()" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
                             </router-link>
                         </li>
                         <li class="nav-item">
@@ -48,22 +51,31 @@
                 </div>
             </div>
         </nav>
+</div>
 </template>
 <script>
-import logar from '../../events/login/logar'
+import security from '../../events/seguranca/security'
+import SecurityService from '../../domain/seguranca/SecurityService'
 export default {
+    created(){
+        this.securityService = new SecurityService(this.$http)
+        this.logado = this.securityService.isLogado()
+    },
     mounted() {
-        logar.$on('logado', () => this.logado = true)
-        logar.$on('deslogado', () => this.logado = false)
+        security.$on('deslogado', () => this.logado = false)
     },
     data() {
         return {
-            logado: false
+            logado: false,
+            isShow: false,
         }
     },
     methods: {
         logout(){
-            this.logado = false
+            this.securityService.logout();
+        },
+        toggle(){
+            this.isShow = !this.isShow
         }
     }
 }

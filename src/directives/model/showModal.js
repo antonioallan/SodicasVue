@@ -4,7 +4,6 @@ Vue.directive('modal', {
     bind(el, binding, vnode) {
         let current = 0;
         el.addEventListener('click', function () {
-            console.log(binding.arg)
             if (binding.arg || binding.arg == 'show') {
                 show.$emit('showModal', binding.value.modal)
             } 

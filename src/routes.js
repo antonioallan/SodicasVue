@@ -4,6 +4,7 @@ import Area from './pages/area/Area.vue'
 import Post from './pages/post/Post.vue'
 import Sigup from './pages/sigup/Sigup.vue'
 import Acesso from './pages/acesso/Acesso.vue'
+import Perfil from './pages/perfil/Perfil.vue'
 export const routes = [
 
     { path: '', name : 'home', component: Home },
@@ -12,6 +13,7 @@ export const routes = [
     { path: '/sigup', name : 'sigup', component: Sigup },
     { path: '/area', name : 'area', component: Area },
     { path: '/acesso', name : 'acesso', component: Acesso },
+    { path: '/perfil', name : 'perfil', component: Perfil },
     { path: '*', component: Home }
 
 ];

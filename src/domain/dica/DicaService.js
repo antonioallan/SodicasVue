@@ -1,8 +1,24 @@
 
-export default class DicaService{
-    dados = []
+export default class DicaService {
 
-    cadatrar(dica){
-        this.dados.push(dica);
+    constructor(http) {
+        this._path = "dica"
+        this._http = http;
+    }
+
+    lancamento(offset) {
+        let limit = 3
+        return this._http.get(`${this._path}/lancamento?limit=${limit}&offset=${offset}`)
+            .then(res => res.json());
+    }
+
+    carregar(id) {
+        return this._http.get(`${this._path}/${id}`)
+            .then(res => res.json());
+    }
+
+    buscarPor(autor){
+        return this._http.get(`${this._path}/autor/${autor.id}`)
+        .then(res => res.json());
     }
 } 

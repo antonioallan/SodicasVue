@@ -9,7 +9,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-user"></i>
                     </span>
-                    <input v-model="usuario.username" :disabled="disabled" class="form-control" type="text" placeholder="username" />
+                    <input v-model="usuario.username" :disabled="alterar" class="form-control" type="text" placeholder="username" />
                 </div>
             </div>
             <div class="form-group">
@@ -17,7 +17,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-envelope"></i>
                     </span>
-                    <input class="form-control" type="email" placeholder="Email">
+                    <input v-model="usuario.email" class="form-control" type="email" placeholder="Email">
                     <span class="input-group-addon">
                         <i class="fa fa-check"></i>
                     </span>
@@ -43,22 +43,32 @@
                 </div>
             </div>
             <div class="form-group">
-                <button class="btn btn-primary">
-                    Cadastrar
+                <button class="btn btn-primary" @click="salvar()">
+                    Salvar
                 </button>
             </div>
         </div>
     </div>
 </template>
 <script>
+import Usuario from '../../domain/usuario/Usuario'
+import UsuarioService from '../../domain/usuario/UsuarioService'
+import message from '../../events/message/message'
 export default {
-    props : ['disabled'],
+    props: ['alterar'],
+    created() {
+        this.service = new UsuarioService(this.$resource);
+    },
+    mounted() {
+        console.log(this.alterar);
+        if (this.alterar) {
+            this.usuario = new Usuario('allan.santos', 'antonioallan.santos@gmail.com', '1234')
+            this.confsenha = '1234'
+        }
+    },
     data() {
         return {
-            usuario: {
-                username: '',
-                senha: ''
-            },
+            usuario: new Usuario('', '', ''),
             valido: true,
             confsenha: ''
         }
@@ -66,12 +76,23 @@ export default {
     methods: {
         checarSenha() {
             this.valido = (this.usuario.senha == this.confsenha)
+        },
+        salvar() {
+            this.service.cadastrar(this.usuario).then(
+                (dado) => {
+                    let tipo = dado.tipo == 1 ? "success" : 'info'
+                    message.$emit('show', { message: dado.msg, tipo: tipo })
+                    this.usuario = new Usuario();
+
+                },
+                (err) => message.$emit('show', { message: err.msg, tipo: 'danger' })
+            )
         }
     }
 }
 </script>
 <style scopedSlots>
-    .card-div{
-        margin: 15px;
-    }
+.card-div {
+    margin: 15px;
+}
 </style>

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <meu-header/>
         <div class="jumbotron jumbotron-fluid bg-dark">
             <div class="container">
                 <div class="row">
@@ -50,19 +51,34 @@
                     <card-dica :dica="dica" />
                 </div>
             </div>
+            <div class="row">
+                <div class="col-3 mx-auto">
+                    <button class="btn btn-light">Mais Resultados</button>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 </template>
 <script>
+import Header from '../../componets/layout/Header.vue'
 import CardDica from '../../componets/shared/card-dica/CardDica.vue'
 import Dropdown from '../../componets/shared/dropdown/Dropdown.vue'
 import Dica from '../../domain/dica/Dica'
+import DicaService from '../../domain/dica/DicaService'
 import Tag from '../../domain/tag/Tag'
 export default {
     components: {
+        'meu-header' : Header,
         'card-dica': CardDica,
         'dropdown': Dropdown
+    },
+    created(){
+        this.service = new DicaService(this.$http)
+        this.service.lancamento(0)
+        .then(dicas => {
+            console.log(dicas)
+            this.dicas = dicas
+            },err => console.log(err));
     },
     methods: {
         selecionarTag($event) {
@@ -70,31 +86,14 @@ export default {
                 this.tags.push($event);
             }
         },
-        removeTag(tag){
+        removeTag(tag) {
             let i = this.tags.indexOf(tag)
-            this.tags.splice(i,1)
+            this.tags.splice(i, 1)
         }
     },
     data() {
         return {
-            dicas: [
-                new Dica(1, "Instalando um chuveiro", '06/07/2017', "Allan", "para instalar um chuveiro tem que primeiro ...", [
-                    new Tag(1, "Casa"),
-                    new Tag(2, "Lar"),
-                    new Tag(3, "Manutenção")
-                ], 3.5),
-                new Dica(2, "Instalando um Ruimdows", '05/07/2017', "Allan", "para instalar essa porcaria tem que primeiro ...", [
-                    new Tag(4, "Informatica"),
-                    new Tag(5, "Windows"),
-                    new Tag(7, "SO")
-                ], 4.8),
-                new Dica(2, "Instalando um Bomba", '04/07/2017', "Allan", "para instalar um Bomba tem que primeiro ...", [
-                    new Tag(1, "ALQUAIDA"),
-                    new Tag(2, "HAMAS"),
-                    new Tag(3, "TERRORISMOS")
-                ], 1)
-
-            ],
+            dicas: [],
             tags: [],
             opcaoTags: [
                 new Tag(1, "Casa"),
@@ -112,7 +111,7 @@ export default {
 }
 </script>
 <style scopedSlots>
-    .tag{
-        margin: 5px;
-    }
+.tag {
+    margin: 5px;
+}
 </style>
