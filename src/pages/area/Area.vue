@@ -96,7 +96,7 @@ import CardDica from '../../componets/shared/card-dica/CardDica.vue'
 import Modal from '../../componets/shared/modal/Modal.vue'
 import Dica from '../../domain/dica/Dica'
 import DicaService from '../../domain/dica/DicaService'
-import UsuarioService from '../../domain/usuario/UsuarioService'
+import AutorService from '../../domain/autor/AutorService'
 import TagService from '../../domain/tag/TagService'
 import Tag from '../../domain/tag/Tag'
 import Autor from '../../domain/autor/Autor'
@@ -109,13 +109,12 @@ export default {
     },
     created(){
         this.dicaService = new DicaService(this.$http)
-        this.usuarioService = new UsuarioService(this.$http)
         this.tagService = new TagService(this.$http)
-        this.autor = this.usuarioService.getUsuario().autor;
+        this.autor = AutorService.getAutor();
         this.dicaService.buscarPor(this.autor)
         .then(dicas => {
             this.dicas = dicas
-        }, err => console.log(err))
+        })
         this.tagService.buscar().then(tags => this.tags = tags)
     },
     methods: {
@@ -123,7 +122,7 @@ export default {
             this.tagService.cadastrar(this.tag).then(tag => {
                 this.tags.push(tag)
                 this.tag = {}
-            })
+            },err => console.log(err))
             
         },
         addDica() {

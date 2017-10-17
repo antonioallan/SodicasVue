@@ -1,12 +1,9 @@
-import SecurityService from '../seguranca/SecurityService'
-import {HEADER_AUTH,ACESSO_RESTRITO} from '../seguranca/SecurityConstants'
 import {USER_LODADO_KEY} from './UsuarioConstants'
 export default class UsuarioService{
 
     constructor(http){
         this._path = "usuario"
         this._http = http
-        this._security = new SecurityService()
     }
 
     cadastrar(usuario){
@@ -16,23 +13,26 @@ export default class UsuarioService{
         return this._http.post(this._path,usuario).then(res => res.json());
     }
 
-    buscaUsuario(){
-        let user = this._security.usuarioLogado()
-        return this._http.get(`${this._path}/${user.username}`,{
+    buscaUsuario(username){
+        return this._http.get(`${this._path}/${username}`,{
             headers : {
                 'Restrito' : "true",
-                'Authentication' : user.token
             }
-        }).then(usuario => usuario.json(),err => {
-            this._security.logout()
-            security.$emit("logout");
-        }).then(user => {
-            localStorage.setItem(USER_LODADO_KEY,JSON.stringify(user));
-        },err => {
-            this._security.logout()
-        })
+        }).then(usuario => usuario.json())
+        .then(usuario => {
+            console.log(usuario)
+            this.setUsuario(usuario)
+        });
     }
-    getUsuario(){
+    static getUsuario(){
         return JSON.parse(localStorage.getItem(USER_LODADO_KEY))
+    }
+
+    static setUsuario(usuario){
+        localStorage.setItem(USER_LODADO_KEY,JSON.stringify(usuario));
+    }
+
+    static removeUsuario(){
+        localStorage.removeItem(USER_LODADO_KEY)
     }
 }

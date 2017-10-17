@@ -1,17 +1,23 @@
 import {KEY_LOCALSTOREGE_USER,HEADER_AUTH} from './SecurityConstants'
 import security from '../../events/seguranca/security'
+import UsuarioService from '../usuario/UsuarioService'
+import Usuario from '../usuario/Usuario'
+import AutorService from '../autor/AutorService'
 export default class SecurityService{
-     constructor(http,router){
+     constructor(http){
          this._path = "security";
          this._http = http;
-         this._router = router;
      }
 
     login(credencias){
         return this._http.post(`${this._path}/login`,credencias)
         .then(dados => dados.json())
         .then(user => {
-            localStorage.setItem(KEY_LOCALSTOREGE_USER,JSON.stringify(user))
+            localStorage.removeItem(KEY_LOCALSTOREGE_USER)
+            localStorage.setItem(KEY_LOCALSTOREGE_USER,JSON.stringify({username : user.username, token: user.token}))
+            UsuarioService.setUsuario(new Usuario(user.usuario.username,user.usuario.email))
+            AutorService.setAutor(user.usuario.autor)
+            return user
         })
     }
 
@@ -34,8 +40,9 @@ export default class SecurityService{
 
     logout(){
         localStorage.removeItem(KEY_LOCALSTOREGE_USER)
+        UsuarioService.removeUsuario()
+        AutorService.removeAutor()
         security.$emit("logout");
-        this._router.push({name : 'login'})
     }
 
 

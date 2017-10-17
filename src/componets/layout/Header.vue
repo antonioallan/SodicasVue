@@ -55,11 +55,9 @@
 </template>
 <script>
 import security from '../../events/seguranca/security'
-import SecurityService from '../../domain/seguranca/SecurityService'
 export default {
     created(){
-        this.securityService = new SecurityService(this.$http)
-        this.logado = this.securityService.isLogado()
+        this.logado = this.$securityService.isLogado()
     },
     mounted() {
         security.$on('deslogado', () => this.logado = false)
@@ -72,7 +70,7 @@ export default {
     },
     methods: {
         logout(){
-            this.securityService.logout();
+            this.$securityService.logout();
         },
         toggle(){
             this.isShow = !this.isShow

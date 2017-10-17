@@ -1,9 +1,8 @@
 import Autor from '../autor/Autor'
 export default class Usuario{
-     constructor(username,email,senha){
+     constructor(username,email){
         this.username = username
         this.email = email
-        this.senha = senha
         this.autor = null;
     }
 }

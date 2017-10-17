@@ -52,26 +52,21 @@
 <script>
 import security from '../../events/seguranca/security'
 import SecurityService from '../../domain/seguranca/SecurityService'
-import UsuarioService from '../../domain/usuario/UsuarioService'
+import AutorService from '../../domain/autor/AutorService'
 import message from '../../events/message/message'
 export default {
-    created() {
-        this.service = new SecurityService(this.$http)
-        this.usuarioService = new UsuarioService(this.$http);
-    },
     methods: {
         logando() {
-            this.service.login(this.credencias)
-                .then(() => {
-                    this.usuarioService.buscaUsuario().then(() => {
-                        let usuario = this.usuarioService.getUsuario();
-                        if (usuario.autor) {
+            this.$securityService.login(this.credencias)
+                .then((user) => {
+                    let autor = user.usuario.autor;
+                    if (autor) {
                             this.$router.push({ name: 'area' })
                         } else {
                             this.$router.push({ name: 'perfil' })
                         }
-                    })
                 }).catch(err => {
+                    console.log(err)
                     message.$emit('show',{ message : 'Usuário ou Senha Inválida', tipo : 'danger' })
                 })
 
