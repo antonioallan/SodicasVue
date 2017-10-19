@@ -129,11 +129,8 @@ export default {
             if (this.dica.id) {
                 this.limparForm()
             } else {
-                this.dica.id = Math.random()
-                this.dica.data = new Date().toLocaleDateString('pt-br')
-                this.dica.pontuacao = 0;
-                this.dica.autor = this.autor.nome
-                this.dicas.unshift(this.dica)
+                this.dicaService.cadastrar(this.dica)
+                .then(dica => this.dicas.push(dica), err => console.log(err))
                 this.limparForm()
             }
         },

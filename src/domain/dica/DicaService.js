@@ -21,4 +21,11 @@ export default class DicaService {
         return this._http.get(`${this._path}/autor/${autor.id}`)
         .then(res => res.json());
     }
+    cadastrar(dica){
+        return this._http.post(this._path,dica,{
+            headers: {
+                'Restrito' : true
+            }
+        }).then(res => res.json())
+    }
 } 

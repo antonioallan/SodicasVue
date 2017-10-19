@@ -10,7 +10,7 @@ export default class TagService{
             headers :{
                 'Restrito' : 'true'
             }
-        })
+        }).then(tag => tag.json())
     }
 
     buscar(){
