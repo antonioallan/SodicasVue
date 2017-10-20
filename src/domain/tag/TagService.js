@@ -1,3 +1,4 @@
+import SecurityService from '../seguranca/SecurityService'
 export default class TagService{
     
     constructor(http){
@@ -6,11 +7,8 @@ export default class TagService{
     }
 
     cadastrar(tag){
-        return this._http.post(this._path, tag ,{
-            headers :{
-                'Restrito' : 'true'
-            }
-        }).then(tag => tag.json())
+        return this._http.post(this._path, tag ,SecurityService.getHeaderSecurity()
+        ).then(tag => tag.json())
     }
 
     buscar(){

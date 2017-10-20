@@ -100,6 +100,7 @@ import AutorService from '../../domain/autor/AutorService'
 import TagService from '../../domain/tag/TagService'
 import Tag from '../../domain/tag/Tag'
 import Autor from '../../domain/autor/Autor'
+import message from '../../events/message/message'
 export default {
     components: {
         'meu-header': Header,
@@ -122,27 +123,53 @@ export default {
             this.tagService.cadastrar(this.tag).then(tag => {
                 this.tags.push(tag)
                 this.tag = {}
-            },err => console.log(err))
+            },err => {
+                if(err.status == 401){
+                    this.$securityService.logout()
+                }
+            })
             
         },
         addDica() {
             if (this.dica.id) {
-                this.limparForm()
+                this.dicaService.alterar(this.dica)
+                .then(msg => message.$emit('show',{ message : msg.msg, tipo : 'success' }),
+                err => {
+                    if(err.status == 401){
+                        this.$securityService.logout()
+                    }
+                }
+                )
             } else {
+                this.dica.autor = this.autor
                 this.dicaService.cadastrar(this.dica)
-                .then(dica => this.dicas.push(dica), err => console.log(err))
-                this.limparForm()
+                .then(dica => this.dicas.push(dica), 
+                err => {
+                    if(err.status == 401){
+                        this.$securityService.logout()
+                    }
+                })
             }
+            this.limparForm()
         },
         limparForm() {
-            this.dica = new Dica(0, '', '', '', '', [], 0)
+            this.dica = new Dica()
         },
         seleciona(dica) {
             this.dica = dica;
         },
         remove() {
-            let i = this.dicas.indexOf(this.dica)
-            this.dicas.splice(i, 1)
+            this.dicaService.remove(this.dica).
+            then(m => {
+                let i = this.dicas.indexOf(this.dica)
+                this.dicas.splice(i, 1)
+                message.$emit('show',{ message : m.msg, tipo : 'success' })
+            },err => {
+                if(err.status == 401){
+                    this.$securityService.logout()
+                }
+                err.json().then(msg => message.$emit('show',{ message : msg.msg, tipo : 'danger' }))
+            })
             this.limparForm()
         }
 
@@ -154,7 +181,7 @@ export default {
             dicas: [],
             tags: [],
             tag: {},
-            dica: new Dica({tags : []})
+            dica: new Dica()
         }
     }
 }

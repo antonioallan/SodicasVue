@@ -16,17 +16,12 @@ const router = new VueRouter({
 Vue.use(VueResource);
 Vue.http.options.root = "http://localhost:8080/v1";
 const securityService = new SecurityService(Vue.http,Vue.router)
-if (securityService.isLogado()) {
-  let user = securityService.usuarioLogado()
-  if (user) {
-    Vue.http.headers.common[HEADER_AUTH] = user.token;
-  }
-}
 securityService.install = function(){
   Object.defineProperty(Vue.prototype, '$securityService', {
     get () { return securityService }
   })
 }
+
 Vue.use(securityService)
 
 new Vue({

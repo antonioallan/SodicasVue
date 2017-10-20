@@ -1,3 +1,4 @@
+import SecurityService from '../seguranca/SecurityService'
 import {USER_LODADO_KEY} from './UsuarioConstants'
 export default class UsuarioService{
 
@@ -14,11 +15,9 @@ export default class UsuarioService{
     }
 
     buscaUsuario(username){
-        return this._http.get(`${this._path}/${username}`,{
-            headers : {
-                'Restrito' : "true",
-            }
-        }).then(usuario => usuario.json())
+        return this._http.get(`${this._path}/${username}`,
+        SecurityService.getHeaderSecurity()
+    ).then(usuario => usuario.json())
         .then(usuario => {
             console.log(usuario)
             this.setUsuario(usuario)

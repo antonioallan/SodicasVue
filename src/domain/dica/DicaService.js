@@ -1,4 +1,4 @@
-
+import SecurityService from '../seguranca/SecurityService'
 export default class DicaService {
 
     constructor(http) {
@@ -22,10 +22,15 @@ export default class DicaService {
         .then(res => res.json());
     }
     cadastrar(dica){
-        return this._http.post(this._path,dica,{
-            headers: {
-                'Restrito' : true
-            }
-        }).then(res => res.json())
+        return this._http.post(this._path,dica,SecurityService.getHeaderSecurity()).then(res => res.json())
     }
+
+    alterar(dica){
+        return this._http.put(this._path,dica,SecurityService.getHeaderSecurity()).then(res => res.json())
+    }
+
+    remove(dica){
+        return this._http.delete(`${this._path}/${dica.id}`,SecurityService.getHeaderSecurity()).then(res => res.json())
+    }
+
 } 
