@@ -45,8 +45,7 @@
 <script>
 import Dica from '../../domain/dica/Dica'
 import DicaService from '../../domain/dica/DicaService'
-import Tag from '../../domain/tag/Tag'
-import Comentario from '../../domain/comentario/Comentario'
+import ComentarioService from '../../domain/comentario/ComentarioService'
 import CardComment from '../../componets/shared/comment/CardComment.vue'
 import FormComment from '../../componets/shared/comment/FormComment.vue'
 import RatingVotar from '../../componets/shared/rating/RatingVotar.vue'
@@ -63,25 +62,23 @@ export default {
         let id = this.$route.params.id
         this.service = new DicaService(this.$http)
         this.service.carregar(id)
-        .then(dica => this.dica = new Dica(dica),err => console.log(err));
+        .then(dica => this.dica = new Dica(dica),err => console.log(err))
+        this.comentarioService = new ComentarioService(this.$http)
+        this.comentarioService.buscar(id).then(cometarios => this.cometarios = cometarios, err => console.log(err))
     },
     data() {
         return {
             dica: {},
-            cometarios: [
-                new Comentario(1,'Joao Zinho','Esta post e muito bom mesmo valeu!!!','15/08/2017'),
-                new Comentario(2,'Tomas Turbamdo','Prefiro nao comentar nada','15/08/2017'),
-                new Comentario(3,'Chico Rita','muito legal, bom mesmo','21/07/2017'),
-                new Comentario(4,'Ms Hater','Isso é uma bosta','07/07/2017')
-            ]
-
-
+            cometarios: []
         }
     },
     methods: {
         addComentario($event) {
-            $event.id = Math.random();
-            this.cometarios.unshift($event);
+            $event.dica = this.dica
+            this.comentarioService.cadatrar($event).then(comentario => {
+                this.cometarios.unshift(comentario);
+            })
+            
         },
         computandoVoto($event) {
             message.$emit('show',{ message : 'obrigado por participar', tipo : 'success' })
