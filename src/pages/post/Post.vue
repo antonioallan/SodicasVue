@@ -46,6 +46,7 @@
 import Dica from '../../domain/dica/Dica'
 import DicaService from '../../domain/dica/DicaService'
 import ComentarioService from '../../domain/comentario/ComentarioService'
+import Comentario from '../../domain/comentario/Comentario'
 import CardComment from '../../componets/shared/comment/CardComment.vue'
 import FormComment from '../../componets/shared/comment/FormComment.vue'
 import RatingVotar from '../../componets/shared/rating/RatingVotar.vue'
@@ -74,8 +75,9 @@ export default {
     },
     methods: {
         addComentario($event) {
-            $event.dica = this.dica
-            this.comentarioService.cadatrar($event).then(comentario => {
+            let comentario = new Comentario($event);
+            comentario.dica = this.dica
+            this.comentarioService.cadastrar(comentario).then(comentario => {
                 this.cometarios.unshift(comentario);
             })
             

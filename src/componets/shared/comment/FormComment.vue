@@ -17,7 +17,6 @@
 export default {
     methods: {
         comentar() {
-            this.comment.data = new Date().toLocaleDateString('pt-br');
             this.$emit("salvar", this.comment);
             this.comment = { id: '', autor: '', conteudo: '', data: '' }
         }

@@ -5,11 +5,12 @@ export default class ComentarioService{
     }
 
     cadastrar(comentario){
-        return this._http.post(this._path)
+        return this._http.post(this._path,comentario)
         .then(res => res.json())
     }
 
     buscar(dicaId){
-        return this._http.get(`${this._path}/${id}`).then(res => res.json())
+        return this._http.get(`${this._path}/${dicaId}`)
+        .then(res => res.json())
     }
 }
