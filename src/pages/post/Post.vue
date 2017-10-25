@@ -45,6 +45,7 @@
 <script>
 import Dica from '../../domain/dica/Dica'
 import DicaService from '../../domain/dica/DicaService'
+import AutorService from '../../domain/autor/AutorService'
 import ComentarioService from '../../domain/comentario/ComentarioService'
 import Comentario from '../../domain/comentario/Comentario'
 import CardComment from '../../componets/shared/comment/CardComment.vue'
@@ -77,14 +78,23 @@ export default {
         addComentario($event) {
             let comentario = new Comentario($event);
             comentario.dica = this.dica
+            console.log(comentario)
             this.comentarioService.cadastrar(comentario).then(comentario => {
-                this.cometarios.unshift(comentario);
+                this.cometarios.unshift(new Comentario(comentario));
             })
             
         },
         computandoVoto($event) {
-            message.$emit('show',{ message : 'obrigado por participar', tipo : 'success' })
-            this.dica.pontuacao = (this.dica.pontuacao + $event) / 2
+            let autor = AutorService.getAutor();
+            if(autor && (autor.id == this.dica.autor.id)){
+                message.$emit('show',{ message : 'Não Permitido votar em suas próprias dicas!', tipo : 'danger' })
+                return
+            }
+            this.service.votar({dica : this.dica, nota : $event}).then(dica => {
+                this.dica = dica
+                message.$emit('show',{ message : 'obrigado por participar', tipo : 'success' })
+            }, err => message.$emit('show',{ message : 'Erro em seu voto, tente novamente!', tipo : 'danger' })
+            )
         }
     }
 }

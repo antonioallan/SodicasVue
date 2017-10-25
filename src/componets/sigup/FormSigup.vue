@@ -51,48 +51,49 @@
     </div>
 </template>
 <script>
-import Usuario from '../../domain/usuario/Usuario'
-import UsuarioService from '../../domain/usuario/UsuarioService'
-import message from '../../events/message/message'
+import Usuario from "../../domain/usuario/Usuario";
+import UsuarioService from "../../domain/usuario/UsuarioService";
+import message from "../../events/message/message";
 export default {
-    props: ['alterar'],
-    created() {
-        this.service = new UsuarioService(this.$resource);
-    },
-    mounted() {
-        console.log(this.alterar);
-        if (this.alterar) {
-            this.usuario = new Usuario('allan.santos', 'antonioallan.santos@gmail.com', '1234')
-            this.confsenha = '1234'
-        }
-    },
-    data() {
-        return {
-            usuario: new Usuario('', '', ''),
-            valido: true,
-            confsenha: ''
-        }
-    },
-    methods: {
-        checarSenha() {
-            this.valido = (this.usuario.senha == this.confsenha)
-        },
-        salvar() {
-            this.service.cadastrar(this.usuario).then(
-                (dado) => {
-                    let tipo = dado.tipo == 1 ? "success" : 'info'
-                    message.$emit('show', { message: dado.msg, tipo: tipo })
-                    this.usuario = new Usuario();
-
-                },
-                (err) => message.$emit('show', { message: err.msg, tipo: 'danger' })
-            )
-        }
+  props: ["alterar"],
+  created() {
+    this.service = new UsuarioService(this.$http);
+  },
+  mounted() {
+    console.log(this.alterar);
+    if (this.alterar) {
+      this.usuario = UsuarioService.getUsuario();
     }
-}
+  },
+  data() {
+    return {
+      usuario: new Usuario("", "", ""),
+      valido: true,
+      confsenha: ""
+    };
+  },
+  methods: {
+    checarSenha() {
+      this.valido = this.usuario.senha == this.confsenha;
+    },
+    salvar() {
+      if (this.valido) {
+        this.service.cadastrar(this.usuario).then(
+          dado => {
+            let tipo = dado.tipo == 1 ? "success" : "info";
+            message.$emit("show", { message: dado.msg, tipo: tipo });
+            this.usuario = new Usuario();
+            this.$router.push({ name: "login" });
+          },
+          err => message.$emit("show", { message: err.msg, tipo: "danger" })
+        );
+      }
+    }
+  }
+};
 </script>
 <style scopedSlots>
 .card-div {
-    margin: 15px;
+  margin: 15px;
 }
 </style>

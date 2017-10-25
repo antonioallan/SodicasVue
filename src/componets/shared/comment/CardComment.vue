@@ -6,7 +6,7 @@
             </div>
             <p class="card-text">{{ comment.conteudo }}</p>
             <div>
-                <small>{{ comment.data }}</small>
+                <small>{{ comment.dataFormatada }}</small>
             </div>
         </div>
     </div>

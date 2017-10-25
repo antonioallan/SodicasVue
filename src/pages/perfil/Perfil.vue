@@ -43,6 +43,7 @@
 import Header from '../../componets/layout/Header.vue'
 import CardUser from '../../componets/shared/card-user/CardUser.vue'
 import Autor from '../../domain/autor/Autor'
+import AutorService from '../../domain/autor/AutorService'
 import UsuarioService from '../../domain/usuario/UsuarioService'
 import message from '../../events/message/message'
 export default {
@@ -52,8 +53,9 @@ export default {
     },
     created() {
         this.service = new UsuarioService(this.$http)
-        this.usuario = this.service.getUsuario()
-        this.autor = this.usuario.autor ? this.usuario.autor : new Autor('', '', this.usuario.username, 0, '')
+        this.usuario = UsuarioService.getUsuario()
+        let autor = AutorService.getAutor()
+        this.autor = autor ? autor : new Autor('', '', this.usuario.username, 0, '')
     },
     methods: {
         toggle() {
@@ -65,8 +67,13 @@ export default {
         },
         salvar() {
             this.usuario.autor = this.autor
-            this.service.cadastrar(this.usuario).then((msg) => {
-                message.$emit('show', { message: 'Cadastro realizado com sucesso!', tipo: 'success' })
+            this.service.cadastrar(this.usuario).then((usuario) =>
+             {
+                 UsuarioService.removeUsuario();
+                 AutorService.removeAutor()
+                 UsuarioService.setUsuario(usuario);
+                 AutorService.setAutor(usuario.autor);
+                 this.$router.push({name : 'area'})
             }, err => message.$emit('show', { message: err.message, tipo: 'danger' }))
         }
     },

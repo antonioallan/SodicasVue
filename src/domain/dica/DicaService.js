@@ -33,4 +33,10 @@ export default class DicaService {
         return this._http.delete(`${this._path}/${dica.id}`,SecurityService.getHeaderSecurity()).then(res => res.json())
     }
 
+
+    votar(voto){
+        return this._http.post(`${this._path}/votar`,voto).then(res => res.json())
+    }
+
+
 } 

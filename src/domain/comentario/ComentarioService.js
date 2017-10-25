@@ -5,7 +5,8 @@ export default class ComentarioService{
     }
 
     cadastrar(comentario){
-        return this._http.post(this._path,comentario)
+        console.log(comentario)
+        return this._http.post(`${this._path}/${comentario.dica.id}`,comentario)
         .then(res => res.json())
     }
 
