@@ -12,6 +12,12 @@ export default class DicaService {
             .then(res => res.json());
     }
 
+    filtrar(dados,offset) {
+        let limit = 3
+        return this._http.post(`${this._path}/filtro/${limit}/${offset}`,dados)
+            .then(res => res.json());
+    }
+
     carregar(id) {
         return this._http.get(`${this._path}/${id}`)
             .then(res => res.json());

@@ -1,5 +1,6 @@
 <template>
     <div>
+        <meu-header/>
         <div class="jumbotron jumbotron-fluid bg-secondary">
             <div class="container">
                 <h3 class="display-5 text-white">
@@ -50,11 +51,15 @@
     </div>
 </template>
 <script>
+import Header from '../../componets/layout/Header.vue'
 import security from '../../events/seguranca/security'
 import SecurityService from '../../domain/seguranca/SecurityService'
 import AutorService from '../../domain/autor/AutorService'
 import message from '../../events/message/message'
 export default {
+    components :{
+        'meu-header' : Header
+    },
     methods: {
         logando() {
             this.$securityService.login(this.credencias)
