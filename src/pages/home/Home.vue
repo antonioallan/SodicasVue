@@ -92,11 +92,11 @@ export default {
         },
         removeTag(tag) {
             let i = this.dados.tags.indexOf(tag)
-            this.tags.splice(i, 1)
+            this.dados.tags.splice(i, 1)
         },
         mais(){
             this.offset = this.offset + 3;
-            if(filtro){
+            if(this.filtro){
                 this.service.filtrar(this.dados,this.offset)
                 .then(dicas => {
                 console.log(dicas)
