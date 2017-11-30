@@ -208,8 +208,6 @@ export default {
 };
 </script>
 <style scopedSlots>
-.card-div {
-  margin-top: 20px;
-}
+
 </style>
 
