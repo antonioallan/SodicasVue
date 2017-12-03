@@ -56,6 +56,7 @@ import security from '../../events/seguranca/security'
 import SecurityService from '../../domain/seguranca/SecurityService'
 import AutorService from '../../domain/autor/AutorService'
 import message from '../../events/message/message'
+import autorEvent from '../../events/autor/autor'
 export default {
     components :{
         'meu-header' : Header
@@ -65,6 +66,7 @@ export default {
             this.$securityService.login(this.credencias)
                 .then((user) => {
                     let autor = user.usuario.autor;
+                    autorEvent.$emit('autor_setado');
                     if (autor) {
                             this.$router.push({ name: 'area' })
                         } else {

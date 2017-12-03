@@ -46,6 +46,7 @@ import Autor from '../../domain/autor/Autor'
 import AutorService from '../../domain/autor/AutorService'
 import UsuarioService from '../../domain/usuario/UsuarioService'
 import message from '../../events/message/message'
+import autor from '../../events/autor/autor'
 export default {
     components: {
         'meu-header': Header,
@@ -73,6 +74,7 @@ export default {
                  AutorService.removeAutor()
                  UsuarioService.setUsuario(usuario);
                  AutorService.setAutor(usuario.autor);
+                 autor.$emit('autor_setado');
                  this.$router.push({name : 'area'})
             }, err => message.$emit('show', { message: err.message, tipo: 'danger' }))
         }

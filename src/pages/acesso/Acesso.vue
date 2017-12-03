@@ -1,25 +1,34 @@
 <template>
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 bg-success area-user">
-            <card-user/>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mx-auto">
-            <form-sigup :alterar="true"/>
+    <div>
+        <meu-header/>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 bg-success area-user">
+                <card-user :autor="this.autor"/>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 mx-auto">
+                <form-sigup :alterar="true"/>
+            </div>
         </div>
     </div>
 </template>
 <script>
-import FormSigup from '../../componets/sigup/FormSigup.vue'
-import CardUser from '../../componets/shared/card-user/CardUser.vue'
+import Header from "../../componets/layout/Header.vue";
+import FormSigup from "../../componets/sigup/FormSigup.vue";
+import CardUser from "../../componets/shared/card-user/CardUser.vue";
+import AutorService from "../../domain/autor/AutorService";
 export default {
-    components : {
-        'form-sigup' : FormSigup,
-        'card-user': CardUser
-    }
-}
+  components: {
+    "meu-header": Header,
+    "form-sigup": FormSigup,
+    "card-user": CardUser
+  },
+  data() {
+    return { autor: AutorService.getAutor() };
+  }
+};
 </script>
 <style scopedSlots>
-    .area-user{
-        height: 100vh;
-    }
+.area-user {
+  height: 100vh;
+}
 </style>

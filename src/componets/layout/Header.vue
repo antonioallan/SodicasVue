@@ -13,34 +13,12 @@
                 </button>
                 <div class="collapse navbar-collapse" :class="{'show' : isShow}" id="navbarTogglerDemo">
                     <ul class="navbar-nav mr-auto" v-if="logado">
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name : 'area' }">
-                                <i class="fa fa-book"></i>
-                                Dicas<button class="navbar-toggler" @click="toggle()" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{ name : 'perfil' }">
-                                <i class="fa fa-user"></i>
-                                Perfil
-                            </router-link>
-                        </li>
+                        <item-menu v-if="this.autor" to="area" label="Dicas" :hasIcon="true" icon="fa fa-book"/>
+                        <item-menu to="perfil" label="Perfil" :hasIcon="true" icon="fa fa-user"/>
                     </ul>
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <router-link v-if="!logado" class="nav-link" :to="{ name : 'login' }">
-                                <i class="fa fa-user"></i>
-                                Login
-                            </router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link v-if="logado" class="nav-link" :to="{ name : 'acesso' }">
-                                <i class="fa fa-user-secret"></i>
-                                Conta de Acesso
-                            </router-link>
-                        </li>
+                        <item-menu v-if="!logado" to="login" label="Login" :hasIcon="true" icon="fa fa-user"/>
+                        <item-menu v-if="logado && autor" to="acesso" label="Conta de Acesso" :hasIcon="true" icon="fa fa-user-secret"/>
                         <li @click="logout()" class="nav-item">
                             <router-link  v-if="logado" class="nav-link" :to="{ name : 'home' }">
                                 <i class="fa fa-power-off"></i>
@@ -54,18 +32,26 @@
 </div>
 </template>
 <script>
+import ItemMenu from '../shared/menu/ItemMenu.vue' 
 import security from '../../events/seguranca/security'
+import AutorService from '../../domain/autor/AutorService'
+import autor from '../../events/autor/autor'
 export default {
+    components :{
+        'item-menu' : ItemMenu
+    },
     created(){
         this.logado = this.$securityService.isLogado()
     },
     mounted() {
         security.$on('deslogado', () => this.logado = false)
+        autor.$on('autor_setado',() => this.autor = AutorService.getAutor())
     },
     data() {
         return {
             logado: false,
             isShow: false,
+            autor: AutorService.getAutor()
         }
     },
     methods: {

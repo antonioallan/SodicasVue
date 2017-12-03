@@ -81,7 +81,7 @@ export default {
         this.service.cadastrar(this.usuario).then(
           dado => {
             let tipo = dado.tipo == 1 ? "success" : "info";
-            message.$emit("show", { message: dado.msg, tipo: tipo });
+            message.$emit("show", { message: "Operação realizada com sucesso", tipo: "success" });
             this.usuario = new Usuario();
             this.$router.push({ name: "login" });
           },
